@@ -2,6 +2,7 @@
 storage
 requests.http
 test.txt
+1G.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
