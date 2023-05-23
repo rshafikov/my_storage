@@ -20,11 +20,14 @@ STORAGE = os.path.join(BASE_DIR, 'storage')
 
 @app.route('/upload', methods=['POST', 'GET', 'PUT'])
 def upload_file():
-    logging.info(f'req: {request.method}, '
+    logging.info(f'req_method: {request.method}, '
                  f'form: {dict(request.form)}, '
-                 f'is_file: {True if request.files else None}')
-    file_path = request.form.get('file_path', default='')
-    raw = request.form.get('raw', default=False)
+                 f'is_file: {True if request.files else None}, '
+                 f'client_addr: {request.remote_addr}')
+    file_path = request.args.get('path', '', str) or (
+        request.form.get('file_path', default=''))
+    raw = request.args.get('raw', 'no', str) or (
+        request.form.get('raw', default=False))
     if file_path and not file_path.startswith('/'):
         file_path = '/' + file_path
     response = {'file_path': file_path}
