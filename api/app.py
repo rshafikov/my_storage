@@ -5,7 +5,7 @@ import logging
 
 
 logging.basicConfig(
-    format='%(asctime)s - %(levelname)s - %(message)s',
+    format='%(asctime)s | %(levelname)s | %(message)s',
     filename='api.log',
     filemode='a',
     level=logging.INFO
@@ -20,26 +20,28 @@ STORAGE = os.path.join(BASE_DIR, 'storage')
 
 @app.route('/upload', methods=['POST', 'GET', 'PUT'])
 def upload_file():
-    logging.info(f'req_method: {request.method}, '
-                 f'form: {dict(request.form)}, '
-                 f'is_file: {True if request.files else None}, '
-                 f'client_addr: {request.remote_addr}')
-    file_path = request.args.get('path', '', str) or (
-        request.form.get('file_path', default=''))
+    logging.info(
+        f'req_method: {request.method}, '
+        f'root_url: {request.url}, '
+        f'form: {dict(request.form)}, '
+        f'is_file: {True if request.files else None}, '
+        f'client_addr: {request.remote_addr}')
+    path = request.args.get('path', '', str) or (
+        request.form.get('path', default=''))
     raw = request.args.get('raw', 'no', str) or (
         request.form.get('raw', default=False))
-    if file_path and not file_path.startswith('/'):
-        file_path = '/' + file_path
-    response = {'file_path': file_path}
+    if path and not path.startswith('/'):
+        path = '/' + path
+    response = {'path': path}
 
     if request.method == 'POST':
         try:
-            folders = '/'.join(file_path.split('/')[:-1])
+            folders = '/'.join(path.split('/')[:-1])
             os.makedirs(STORAGE + folders,
                         exist_ok=True)
             try:
                 response, data = save_file_due_to_context(
-                    request, response, STORAGE, file_path)
+                    request, response, STORAGE, path)
                 response.update({'data': data})
             except UnboundLocalError:
                 response.update({'data': "can't decode preview"})
@@ -53,7 +55,7 @@ def upload_file():
     elif request.method == 'PUT':
         try:
             response, data = save_file_due_to_context(
-                    request, response, STORAGE, file_path)
+                    request, response, STORAGE, path)
             response.update({'data': data})
         except UnboundLocalError:
             response.update({'data': "can't decode preview"})
@@ -69,9 +71,9 @@ def upload_file():
     else:
         try:
             if raw == 'yes':
-                return send_file(STORAGE + file_path, as_attachment=False)
+                return send_file(STORAGE + path, as_attachment=False)
             else:
-                with open(STORAGE + file_path, 'rb') as raw_file:
+                with open(STORAGE + path, 'rb') as raw_file:
                     last_raw_data = raw_file.read()
                     response.update({'data': last_raw_data.decode('utf-8'),
                                      'http_status_code': 200})
@@ -95,6 +97,9 @@ def upload_file():
 
 @app.route('/dir', methods=['GET', ])
 def get_dir():
+    logging.info(
+        f'root_path: {request.root_url}, '
+        f'client_addr: {request.remote_addr}')
     return jsonify(dir_tree(STORAGE))
 
 
