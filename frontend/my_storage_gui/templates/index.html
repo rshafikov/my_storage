@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="description" content="Get, load and change files in your own storage.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{% static 'img/fav/favicon.ico' %}" type="image">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/fav/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/fav/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/fav/favicon-16x16.png' %}">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/script.js' %}"></script>
+    <title>My storage</title>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <b>MY STORAGE</b>
+        </h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="input-text-field">
+                <input type="text" name="path" id="myInput" placeholder="> enter file path ...">
+            </div>
+            <div class="input-text-field">
+                <textarea name="textfile" id="myTextarea" rows="10" cols="68" placeholder="> enter your text here ..."></textarea>
+            </div>
+            <div class="input-text-field">
+                <input type="file" id="fileInput"/>
+            </div>
+            <div class="submit-buttons">
+                <button id="upload-button" type="button">UPLOAD</button>
+                <button id="download-button" type="button">DOWNLOAD</button>
+                
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
