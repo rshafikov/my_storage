@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% with request.resolver_match.view_name as view_name %}
+    <div class="my-storage-container">
+        {% comment %} {% if view_name == 'files:upload' %} {% endcomment %}
+        <div class="json-block">
+            <h2>Response:</h2>
+            <div id="content-container">
+                <pre>{{ response }}</pre>
+            </div>
+        </div>
+        {% comment %} {% endif %} {% endcomment %}
+        {% if content %}
+        <div class="json-block">
+            <h2>Content:</h2>
+            <div id="content-container">
+                <pre>{{ content }}</pre>
+            </div>
+        </div>
+        {% endif %}
+        {% if view_name  == 'files:upload' %}
+        <div class="json-block">
+            <h2>Tree:</h2>
+            <div id="tree-container">
+                <pre>{{ dir_tree }}</pre>
+            </div>
+        </div>
+        {% endif %}
+        <div class="submit-button">
+            {% if view_name  == 'files:download' %}
+                <button id="home-button" onclick="window.location.href = '{% url 'files:index' %}'"> < HOME</button>
+                <form method="GET">
+                    <button id="raw-download-button" type="submit" onclick="window.location.href = '{% url 'files:download' path %}'" name="download" value="raw">DOWNLOAD</a>
+            </form>
+            {% else %}
+            <button id="home-button" onclick="window.location.href = '{% url 'files:index' %}'" style="background-color: transparent; margin-right: 0px"> < HOME</button>
+            {% endif %}
+        </div>
+    </div>
+    {% endwith %}
+{% endblock content %}

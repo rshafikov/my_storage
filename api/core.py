@@ -16,9 +16,9 @@ def dir_tree(path):
 
 def save_file_due_to_context(request, response, STORAGE, file_path):
     if request.files:
-        request.files['file'].save(STORAGE+file_path)
+        request.files['file'].save(STORAGE + file_path)
     else:
-        data = request.form.get('file')
+        data = request.form.get('text')
         with open(STORAGE + file_path, 'w') as file:
             file.write(data)
     response.update({'storage_tree': dir_tree(STORAGE),

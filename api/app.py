@@ -27,9 +27,9 @@ def upload_file():
         f'is_file: {True if request.files else None}, '
         f'client_addr: {request.remote_addr}')
     path = request.args.get('path', '', str) or (
-        request.form.get('path', default=''))
+        request.form.get('path', '', str))
     raw = request.args.get('raw', 'no', str) or (
-        request.form.get('raw', default=False))
+        request.form.get('raw', 'no', str))
     if path and not path.startswith('/'):
         path = '/' + path
     response = {'path': path}
@@ -55,7 +55,7 @@ def upload_file():
     elif request.method == 'PUT':
         try:
             response, data = save_file_due_to_context(
-                    request, response, STORAGE, path)
+                request, response, STORAGE, path)
             response.update({'data': data})
         except UnboundLocalError:
             response.update({'data': "can't decode preview"})
