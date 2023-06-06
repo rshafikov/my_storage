@@ -4,7 +4,7 @@
         <h1>
             <b>MY STORAGE</b>
         </h1>
-        <form method="post" enctype="multipart/form-data" action="{% url 'files:index' %}">
+        <form method="post" id="myForm" enctype="multipart/form-data" action="{% url 'files:index' %}">
             {% csrf_token %}
             <div class="input-text-field">
                 <input type="text" name="path" id="myInput" placeholder="> enter file path ...">
@@ -13,12 +13,30 @@
                 <textarea name="text" id="myTextarea" rows="10" cols="68" placeholder="> enter your text here ..."></textarea>
             </div>
             <div class="input-text-field">
-                <input type="file" id="fileInput"/>
+                <input type="file" id="fileInput" name="file">
             </div>
             <div class="submit-button">
-                <button id="upload-button" type="submit" name="action" value="upload">UPLOAD</button>
-                <button id="download-button" type="submit" name="action" value="download">DOWNLOAD</a>
+                <button id="upload-button" type="button" name="action" value="upload">UPLOAD</button>
+                <button id="download-button" type="button" name="action" value="download">DOWNLOAD</button>
             </div>
         </form>
     </div>
+
+    <script>
+        document.getElementById('upload-button').addEventListener('click', function() {
+            var form = document.getElementById('myForm');
+            var action = form.getAttribute('action');
+            var path = document.getElementById('myInput').value;
+            form.setAttribute('action', action + 'my_storage/upload/' + path);
+            form.submit();
+        });
+
+        document.getElementById('download-button').addEventListener('click', function() {
+            var form = document.getElementById('myForm');
+            var action = form.getAttribute('action');
+            var path = document.getElementById('myInput').value;
+            form.setAttribute('action', action + 'my_storage/download/' + path);
+            form.submit();
+        });
+    </script>
 {% endblock content %}

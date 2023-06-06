@@ -2,14 +2,14 @@
 {% block content %}
     {% with request.resolver_match.view_name as view_name %}
     <div class="my-storage-container">
-        {% comment %} {% if view_name == 'files:upload' %} {% endcomment %}
+        {% if view_name == 'files:upload' %}
         <div class="json-block">
             <h2>Response:</h2>
             <div id="content-container">
                 <pre>{{ response }}</pre>
             </div>
         </div>
-        {% comment %} {% endif %} {% endcomment %}
+        {% endif %}
         {% if content %}
         <div class="json-block">
             <h2>Content:</h2>
@@ -18,7 +18,7 @@
             </div>
         </div>
         {% endif %}
-        {% if view_name  == 'files:upload' %}
+        {% if view_name  == 'files:download' %}
         <div class="json-block">
             <h2>Tree:</h2>
             <div id="tree-container">
