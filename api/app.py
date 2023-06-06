@@ -1,8 +1,9 @@
-from flask import Flask, request, jsonify, send_file, make_response
-from core import dir_tree, save_file_due_to_context
-import os
 import logging
+import os
+import traceback
 
+from core import dir_tree, save_file_due_to_context
+from flask import Flask, jsonify, make_response, request, send_file
 
 logging.basicConfig(
     format='%(asctime)s | %(levelname)s | %(message)s',
@@ -30,8 +31,7 @@ def upload_file():
         request.form.get('path', '', str))
     raw = request.args.get('raw', 'no', str) or (
         request.form.get('raw', 'no', str))
-    if path and not path.startswith('/'):
-        path = '/' + path
+    path = '/' + path if (path and not path.startswith) else path
     response = {'path': path}
 
     if request.method == 'POST':
@@ -47,7 +47,7 @@ def upload_file():
                 response.update({'data': "can't decode preview"})
 
         except Exception as e:
-            logging.error(e)
+            logging.error('{}{}'.format(traceback.format_exc(), e))
             response.update({
                 'error': 'There is an error with your POST request',
                 'http_status_code': 400})
@@ -63,7 +63,7 @@ def upload_file():
             response.update({'error': 'file does not exist',
                              'http_status_code': 404})
         except Exception as e:
-            logging.error(e)
+            logging.error('{}{}'.format(traceback.format_exc(), e))
             response.update({
                 'error': 'There is an error with your PUT request',
                 'http_status_code': 400})
@@ -71,7 +71,7 @@ def upload_file():
     else:
         try:
             if raw == 'yes':
-                return send_file(STORAGE + path, as_attachment=False)
+                return send_file(STORAGE + path, as_attachment=True)
             else:
                 with open(STORAGE + path, 'rb') as raw_file:
                     last_raw_data = raw_file.read()
@@ -87,7 +87,7 @@ def upload_file():
             response.update({'error': 'empty body',
                              'http_status_code': 400})
         except Exception as e:
-            logging.error(e)
+            logging.error('{}{}'.format(traceback.format_exc(), e))
             response.update({
                 'error': 'There is an error with your GET request',
                 'http_status_code': 400})
@@ -104,4 +104,8 @@ def get_dir():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(
+        debug=True,
+        host='0.0.0.0',
+        port=int(os.getenv('API_PORT', default='5000'))
+    )
