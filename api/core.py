@@ -1,5 +1,17 @@
 import json
 import os
+import logging
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+STORAGE = os.path.join(BASE_DIR, 'storage')
+
+logging.basicConfig(
+    format='%(asctime)s | %(levelname)s | %(message)s',
+    filename=os.path.join(BASE_DIR, 'api.log'),
+    filemode='a',
+    level=logging.INFO
+)
 
 
 def dir_tree(path):
@@ -14,7 +26,7 @@ def dir_tree(path):
     return tree
 
 
-def save_file_due_to_context(request, response, STORAGE, file_path):
+def save_file_due_to_context(request, response, file_path):
     if request.files:
         request.files['file'].save(STORAGE + file_path)
     else:

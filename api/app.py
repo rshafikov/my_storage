@@ -2,21 +2,11 @@ import logging
 import os
 import traceback
 
-from core import dir_tree, save_file_due_to_context
+from core import logging, dir_tree, save_file_due_to_context, STORAGE
 from flask import Flask, jsonify, make_response, request, send_file
 
-logging.basicConfig(
-    format='%(asctime)s | %(levelname)s | %(message)s',
-    filename='api.log',
-    filemode='a',
-    level=logging.INFO
-)
 
 app = Flask(__name__)
-
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-STORAGE = os.path.join(BASE_DIR, 'storage')
 
 
 @app.route('/upload', methods=['POST', 'GET', 'PUT'])
@@ -31,7 +21,7 @@ def upload_file():
         request.form.get('path', '', str))
     raw = request.args.get('raw', 'no', str) or (
         request.form.get('raw', 'no', str))
-    path = '/' + path if (path and not path.startswith) else path
+    path = '/' + path if (path and not path.startswith('/')) else path
     response = {'path': path}
 
     if request.method == 'POST':
@@ -41,7 +31,7 @@ def upload_file():
                         exist_ok=True)
             try:
                 response, data = save_file_due_to_context(
-                    request, response, STORAGE, path)
+                    request, response, path)
                 response.update({'data': data})
             except UnboundLocalError:
                 response.update({'data': "can't decode preview"})
@@ -55,7 +45,7 @@ def upload_file():
     elif request.method == 'PUT':
         try:
             response, data = save_file_due_to_context(
-                request, response, STORAGE, path)
+                request, response, path)
             response.update({'data': data})
         except UnboundLocalError:
             response.update({'data': "can't decode preview"})
