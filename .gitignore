@@ -1,9 +1,11 @@
 # My storage
 storage
 requests.http
-test.txt
-1G.txt
 .DS_Store
+.vscode
+.*
+infra.txt
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
