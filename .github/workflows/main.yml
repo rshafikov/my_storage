@@ -57,10 +57,11 @@ jobs:
           username: ${{ secrets.HOST_USER }}
           key: ${{ secrets.HOST_SSH_KEY }}
           script: |
+            cd deploy
             docker compose down -v
             docker image rm ${{ secrets.DOCKER_USERNAME }}/my_storage_api
             docker image rm ${{ secrets.DOCKER_USERNAME }}/my_storage_frontend
             docker pull ${{ secrets.DOCKER_USERNAME }}/my_storage_api
             docker pull ${{ secrets.DOCKER_USERNAME }}/my_storage_frontend
-            echo API_URL_REDIRECT=${{ secrets.HOST }} >.env
-            sudo docker compose up -d
+            echo API_URL_REDIRECT='${{ secrets.HOST }}' > .env
+            docker compose up -d
