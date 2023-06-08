@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
-import requests
-from my_storage_gui.settings import API_INTERNAL_IP, API_EXTERNAL_IP_REDIRECT
 import json
+
+import requests
+from django.shortcuts import redirect, render
+from my_storage_gui.settings import API_EXTERNAL_IP_REDIRECT, API_INTERNAL_IP
 
 
 def download(request, path):

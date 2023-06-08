@@ -1,5 +1,5 @@
 from django.urls import path
-from files.views import index, download, upload
+from files.views import download, index, upload
 
 app_name = 'files'
 

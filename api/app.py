@@ -2,9 +2,8 @@ import logging
 import os
 import traceback
 
-from core import logging, dir_tree, save_file_due_to_context, STORAGE
+from core import STORAGE, dir_tree, logging, save_file_due_to_context
 from flask import Flask, jsonify, make_response, request, send_file
-
 
 app = Flask(__name__)
 
