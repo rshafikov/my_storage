@@ -3,7 +3,8 @@ version: '3.8'
 services:
     
   api:
-    build: ../api/.
+    image: rshafikov/my_storage_api:latest
+    # build: ../api/.
     # ports:
     #   - "5000:5000"
     restart: always
@@ -13,7 +14,8 @@ services:
       - ./.env
 
   frontend:
-    build: ../frontend/.
+    image: rshafikov/my_storage_frontend:latest
+    # build: ../frontend/.
     restart: always
     volumes:
       - static:/app/static/
