@@ -3,10 +3,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-LOG_DIR = '/logs/'
 
-if not os.path.exists(LOG_DIR):
-    os.makedirs(LOG_DIR)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 LOGGING = {
     'version': 1,
@@ -15,7 +13,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(LOG_DIR, 'django.log'),
+            'filename': os.path.join(BASE_DIR, 'django.log'),
         },
     },
     'loggers': {
@@ -28,15 +26,11 @@ LOGGING = {
 }
 
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 SECRET_KEY = 'pw7ktv289avetk&1b@$%ia$5_psn0p9#2^0pvo+wx@(eu$0mtz'
 
-# DEBUG = os.getenv('FRONTEND_DEBUG', default=False)
-DEBUG = True
+DEBUG = bool(os.getenv('FRONTEND_DEBUG', default=False))
 
 ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS', default='*')]
-# ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -107,15 +101,16 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+if DEBUG:
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-STORAGE_API_URL = (
-    f"http://"
-    f"{os.getenv('API_URL', default='localhost')}:"
-    f"{os.getenv('API_PORT', default='5000')}"
-)
+API_INTERNAL_IP = 'http://api:5000'
+API_EXTERNAL_IP_REDIRECT = f'{os.getenv("API_URL_REDIRECT", default="172.20.10.3")}/api/'
