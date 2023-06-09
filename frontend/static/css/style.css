@@ -39,26 +39,24 @@ input, textarea {
     box-sizing: border-box;
     outline: none;
     border: 0;
+    border-color: #ffffff;
     /* border: 3px solid rgb(255, 255, 255); */
     border-radius: 11px;
-    background: rgb(242, 218, 252);
+    background: rgb(248, 231, 255);
     padding: 5px;
     padding-left: 10px;
     margin-bottom: 15px;
-    color: rgb(91, 91, 91);
+    color: rgb(0, 0, 0);
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
+    opacity: 0.4;
     
-}
-
-#myTextarea {
-    border: 3px solid rgb(255, 255, 255);
 }
 
 input[type="text"]::placeholder,
 textarea::placeholder {
-    color: rgb(91, 91, 91);
-    opacity: 0.6;
+    color: rgb(0, 0, 0);
+    opacity: 0.9;
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
 }
@@ -94,14 +92,15 @@ textarea::placeholder {
 
 #download-button,
 #raw-download-button {
-    background-color: rgb(242, 218, 252);
+    background-color: transparent;
+    /* background-color: rgb(242, 218, 252); */
 }
 
 #upload-button:hover,
 #download-button:hover,
 #home-button:hover,
 #raw-download-button:hover {
-    background-image: linear-gradient(to top, #781dee, #c894e8);
+    background-color: rgba(173, 173, 173, 0.462);
 }
 
 .input-text-field input[type="file"]::-webkit-file-upload-button {
@@ -121,13 +120,13 @@ textarea::placeholder {
 .input-text-field input[type="file"]::file-selector-button {
     font-family: 'Montserrat', sans-serif;
     color: blueviolet;
-    opacity: 0.6;
-    font-size: small;
+    /* opacity: 0.7; */
+    font-size: medium;;
 }
 
 .input-text-field input[type="file"] {
     font-family: 'Montserrat', sans-serif;
-    color: rgb(150, 146, 146);
+    color: rgb(49, 49, 49);
     font-size: 14px;
 }
 
@@ -147,13 +146,17 @@ textarea::placeholder {
 }
 
 .json-block {
-    background-color: rgb(242, 218, 252);
-    border: 3px solid #ffffff;
-    padding: 20px;
+    background: rgba(248, 231, 255, 0.252);
+    border: 2px solid #ffffff;
     margin-bottom: 20px;
     word-break: break-word;
     width: 100%;
     border-radius: 20px;
+}
+
+.json-block-content {
+    padding: 20px;
+    color: rgb(36, 36, 36);
 }
 
 .json-block h2 {

@@ -4,25 +4,31 @@
     <div class="my-storage-container">
         {% if view_name == 'files:upload' %}
         <div class="json-block">
-            <h2>Response:</h2>
-            <div id="content-container">
-                <pre>{{ response }}</pre>
+            <div class="json-block-content">
+                <h2>Response:</h2>
+                <div id="content-container">
+                    <pre>{{ response }}</pre>
+                </div>
             </div>
         </div>
         {% endif %}
         {% if content %}
         <div class="json-block">
-            <h2>Content:</h2>
-            <div id="content-container">
-                <pre>{{ content }}</pre>
+            <div class="json-block-content">
+                <h2>Content:</h2>
+                <div id="content-container">
+                    <pre>{{ content }}</pre>
+                </div>
             </div>
         </div>
         {% endif %}
         {% if view_name  == 'files:download' %}
         <div class="json-block">
-            <h2>Tree:</h2>
-            <div id="tree-container">
-                <pre>{{ dir_tree }}</pre>
+            <div class="json-block-content">
+                <h2>Tree:</h2>
+                <div id="tree-container">
+                    <pre>{{ dir_tree }}</pre>
+                </div>
             </div>
         </div>
         {% endif %}

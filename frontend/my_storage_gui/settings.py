@@ -30,6 +30,7 @@ LOGGING = {
 SECRET_KEY = 'pw7ktv289avetk&1b@$%ia$5_psn0p9#2^0pvo+wx@(eu$0mtz'
 
 DEBUG = bool(os.getenv('FRONTEND_DEBUG', default=False))
+# DEBUG = True
 
 ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS', default='*')]
 
